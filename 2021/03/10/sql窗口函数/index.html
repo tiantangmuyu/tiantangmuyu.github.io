@@ -1,0 +1,595 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/blogicon.png">
+  <link rel="icon" type="image/png" href="/img/blogicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TTmu">
+  <meta name="keywords" content="">
+  <title>sql窗口函数 - TTmu Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":"G-56WTL0FXTW","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+<body>
+  <header style="height: 50vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lycoris ❤</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <script src="/live2d-widget/autoload.js"></script>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/default.webp') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="sql窗口函数">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-10 16:33" pubdate>
+        March 10, 2021 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">sql窗口函数</h1>
+            
+            <div class="markdown-body">
+              <h1 id="mysql-窗口函数"><a class="markdownIt-Anchor" href="#mysql-窗口函数"></a> Mysql 窗口函数</h1>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/xun-xiao-xun-27-34"><strong>来源于知乎：薄荷学姐mint</strong></a></p>
+<a id="more"></a>
+<h2 id="含义"><a class="markdownIt-Anchor" href="#含义"></a> 含义</h2>
+<p>窗口函数也叫OLAP函数（Online Anallytical Processing,联机分析处理），可以对数据进行实时分析处理。</p>
+<h2 id="作用"><a class="markdownIt-Anchor" href="#作用"></a> 作用</h2>
+<ul>
+<li>解决排名问题</li>
+<li>解决TOPN问题</li>
+</ul>
+<h2 id="语法"><a class="markdownIt-Anchor" href="#语法"></a> 语法</h2>
+<p>select 窗口函数 over (partition by 用于分组的列名， order by 用于排序的列名)</p>
+<h2 id="分类"><a class="markdownIt-Anchor" href="#分类"></a> 分类</h2>
+<ul>
+<li>专用窗口函数：rank()，dense_rank()，row_number()</li>
+<li>汇总函数：max()，min()，count()，sum()，avg()</li>
+</ul>
+<h2 id="窗口函数的用法"><a class="markdownIt-Anchor" href="#窗口函数的用法"></a> <strong>窗口函数的用法</strong></h2>
+<ol>
+<li>
+<h3 id="专用窗口函数"><a class="markdownIt-Anchor" href="#专用窗口函数"></a> <strong>专用窗口函数</strong></h3>
+</li>
+</ol>
+<h4 id="rank函数"><a class="markdownIt-Anchor" href="#rank函数"></a> <strong>rank()函数</strong></h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mysql">#按班级分类，将成绩降序排序<br>SELECT*,<br>rank() over ( PARTITION BY 班级 ORDER BY 成绩 DESC)  AS ranking  <br>FROM class; <br></code></pre></td></tr></table></figure>
+<p><strong>说明</strong></p>
+<ul>
+<li>rank()是排序函数，括号中不需要有参数；</li>
+<li>通过partition by将班级分类，相当于之前用过的group by子句功能，但是group by子句分类汇总会改变原数据的行数，而用窗口函数自救保持原行数；</li>
+<li>通过order by将成绩降序排列，与之前学的order by子句用法一样，后边可以升序asc或者降序desc；</li>
+</ul>
+<p><strong>总结：</strong></p>
+<ul>
+<li>窗口函数这里的“窗口”表示范围，可以理解为将原数据划分范围，即分组，然后用函数实现某些目的</li>
+<li>窗口函数有分组和排序的功能</li>
+<li>不减少原表的行数</li>
+</ul>
+<h4 id="2-其他专用窗口函数dense_rankrow_number"><a class="markdownIt-Anchor" href="#2-其他专用窗口函数dense_rankrow_number"></a> <strong>2. 其他专用窗口函数：dense_rank/row_number</strong></h4>
+<ul>
+<li>用法与rank（）函数相同</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">SELECT*,<br>dense_rank() over ( PARTITION BY 班级 ORDER BY 成绩 DESC)  AS ranking  <br>FROM class;  <br>SELECT*,<br>row_number() over ( PARTITION BY 班级 ORDER BY 成绩 DESC)  AS ranking  <br>FROM class; <br></code></pre></td></tr></table></figure>
+<ul>
+<li>当成绩相同时，会存在并列的情况，<strong>主要区别是三个函数如何处理并列情况</strong>：</li>
+</ul>
+<p>在rank()函数，如果有并列情况，会占用下一个名次的位置，比如，成绩为100的学生有三个并列第一，那么99分的学生是第二名，通过rank()函数，名次是：1,1,1,4；</p>
+<p>在dense()函数中，如果有并列的情况，不会占用下一个名词，同用上个例子，名次是：1,1,1,2；</p>
+<p>在row_number()函数中，会忽略并列的情况，同用上述例子，名次是：1,2,3,4;</p>
+<p><img src="https://pic4.zhimg.com/80/v2-8921dbd101fa03fedc5ae9cdb34d5037_720w.jpg" srcset="/img/loading.gif" alt="img" /></p>
+<ul>
+<li><strong>案例</strong></li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">#要求按成绩排名，如果出现并列，需要出现类似1,1,1,2的形式<br>SELECT *,<br>dense_rank() over (PARTITION BY 班级 ORDER BY 成绩) AS 排名<br>FROM class;<br><br>#在test1表中按成绩排名，如果有并列情况，则两个分数的排名相同，也就是平分后的下一个名词应该是下一个连续的整数值，名词之间不应该有间隔<br>dense_rank () over (ORDER BY score DESC) AS ranking<br>FROM test1;<br></code></pre></td></tr></table></figure>
+<p><img src="https://pic3.zhimg.com/80/v2-a210dc64e2b2232bdf01bad98494474a_720w.jpg" srcset="/img/loading.gif" alt="img" /></p>
+<h2 id="经典面试问题-topn问题"><a class="markdownIt-Anchor" href="#经典面试问题-topn问题"></a> <strong>经典面试问题-topN问题</strong></h2>
+<ol>
+<li><strong>相关业务问题</strong>：</li>
+</ol>
+<ul>
+<li>每个类别下用户最喜欢的产品是哪个？</li>
+<li>每个类别下用户点击最多的5个商品是什么？</li>
+</ul>
+<p>*<strong>这类问题就需要分组取最大值，最小值，每组最大的n条记录*</strong></p>
+<p><strong>2. 解决方法</strong></p>
+<ul>
+<li><strong>分组取最大值(用关联子查询）</strong></li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询每个学号成绩是最大的所有信息<br>SELECT* FROM score AS a <br>WHERE 成绩=( SELECT MAX(成绩) <br>FROM score AS b <br>WHERE a.`学号`=b.`学号`); <br></code></pre></td></tr></table></figure>
+<p><img src="https://pic3.zhimg.com/80/v2-31bdcce9bf89e8da823888177bde988e_720w.jpg" srcset="/img/loading.gif" alt="img" /></p>
+<p><em>注意：因为0003号选择的三个课程成绩一样，所以最大成绩有三个</em></p>
+<ul>
+<li><strong>分组取最小值</strong></li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询每个学号成绩是最大的所有信息<br>SELECT* <br>FROM score AS a <br>WHERE 成绩=( SELECT MIN(成绩) <br>FROM score AS b <br>WHERE a.`学号`=b.`学号`); <br></code></pre></td></tr></table></figure>
+<p><img src="https://pic3.zhimg.com/80/v2-57cd1d523591c9a895c09a929de7e51a_720w.jpg" srcset="/img/loading.gif" alt="img" /></p>
+<p><em>注意：因为0003号选择的三个课程成绩一样，所以最小成绩有三个</em></p>
+<ul>
+<li><strong>分组取最大N条记录</strong></li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询每个学生成绩最高的两个科目<br>SELECT *<br>FROM (SELECT*,row_number() over (PARTITION BY 姓名 ORDER BY 成绩 DESC) AS ranking <br>FROM test1) AS newtest<br>WHERE ranking&lt;=2;<br></code></pre></td></tr></table></figure>
+<p>说明</p>
+<ul>
+<li>为了不受并列的影响，该题用row_number()</li>
+<li>注意在子查询后边加<strong>别名</strong></li>
+<li>易错的写法：select*,row_number() over(partition by 姓名 order by 成绩 desc） as ranking from test where ranking&lt;=2;按照<strong>sql运行顺序</strong>，where后边不能加别名，因为select子句在where子句之后运行</li>
+<li>涉及到既要分组又要排序的情况，要想到用窗口函数</li>
+</ul>
+<p><strong>TOPN问题模板</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">SELECT *<br>FROM (SELECT*,row_number() over (PARTITION BY 姓名 ORDER BY 成绩 DESC) AS ranking <br>FROM test1) AS newtest<br>WHERE ranking&lt;=N;<br></code></pre></td></tr></table></figure>
+<h2 id="聚合函数作为窗口函数"><a class="markdownIt-Anchor" href="#聚合函数作为窗口函数"></a> <strong>聚合函数作为窗口函数</strong></h2>
+<p><strong>作用</strong>：聚合函数作为窗口函数，是起到&quot;累加/累计&quot;的效果，比如，就是截止到本行，最大值？最小值是多少</p>
+<p><strong>与专用窗口函数的区别</strong>：括号中需要有指定列，不能为空</p>
+<p><strong>用法</strong>：与专用窗口函数相同</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询成绩的累加 <br>SELECT*, SUM(成绩) over (ORDER BY 成绩 DESC) AS &#x27;求和&#x27; <br>FROM class; <br></code></pre></td></tr></table></figure>
+<p><strong>案例</strong></p>
+<p>#查找单科成绩高于该科目平均成绩的学生名单</p>
+<p><strong>法一解题思路：</strong></p>
+<ul>
+<li>单科成绩，表示需要按科目进行分组，分组有两种：group by子句和窗口函数的partition by；</li>
+<li>要求平均值，需要通过avg()实现，并且找到大于平均值的学生，那么不能减少行数，则用partition by；</li>
+</ul>
+<p><strong>步骤：</strong></p>
+<ul>
+<li><strong>聚合函数作为窗口函数</strong></li>
+</ul>
+<p><img src="https://pic4.zhimg.com/80/v2-251a271e216e8e091a9863f6cf38c58b_720w.jpg" srcset="/img/loading.gif" alt="img" /></p>
+<ul>
+<li><strong>与平均值比较</strong></li>
+</ul>
+<p><strong>注意</strong>这里不能用where 成绩&gt;分组平均值，因为where子句在select子句之后执行</p>
+<p><strong>正确语句是套用子查询</strong>：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-f4224c5f20623223e5df763a89f9f25a_720w.jpg" srcset="/img/loading.gif" alt="img" /></p>
+<p><strong>法二关联子查询</strong></p>
+<p><strong>思路</strong></p>
+<ul>
+<li>单科成绩：需要对每门科目进行分组</li>
+<li>平均成绩：avg()求每组的平均值</li>
+<li>学生名单：输出信息中需要有学生姓名</li>
+</ul>
+<p><strong>步骤1：求分组平均值</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">SELECT AVG(成绩) AS 平均值,科目 <br>FROM test3  <br>GROUP BY 科目； <br></code></pre></td></tr></table></figure>
+<p><strong>步骤2：比较</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">SELECT* <br>FROM test3 AS a <br>WHERE 成绩&gt;(SELECT AVG(成绩) AS 平均值 <br>FROM test3 AS b <br>WHERE a.`科目`=b.`科目`); <br></code></pre></td></tr></table></figure>
+<p><em>因为是按照科目分组，所以应该将科目进行关联</em></p>
+<h2 id="窗口函数的移动平均以平均值为例"><a class="markdownIt-Anchor" href="#窗口函数的移动平均以平均值为例"></a> <strong>窗口函数的移动平均（以平均值为例）</strong></h2>
+<p>**作用：**通过preceding,following,current row等调整作用范围，基本语法为</p>
+<p>ROWS BETWEEN 一个时间点 AND 一个时间点</p>
+<p><strong>时间点</strong>可以表示为：</p>
+<ul>
+<li>n PRECEDING : 前n行</li>
+<li>n FOLLOWING：后n行</li>
+<li>CURRENT ROW ： 当前行</li>
+<li>UNBOUNDED PRECEDING：窗口第一行</li>
+<li>UNBOUNDED FOLLOWING：窗口的最后一行</li>
+</ul>
+<p><strong>用法：</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询前两行到当前行的平均成绩<br>SELECT *,<br>AVG(成绩) over (ORDER BY 姓名 ROWS 2 preceding) AS result <br>FROM test3;<br></code></pre></td></tr></table></figure>
+<p><strong>解释：</strong></p>
+<p>rows N proceding—N表示在当前行的前N行，比如，N=2，当前行在第4行，那么该平均值是第2行，第3行，第4行，这三行数据的平均值</p>
+<h2 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> <strong>注意事项</strong></h2>
+<ul>
+<li>窗口函数中的如果省略partition by，则结果不进行分组，则以整个表为范围，也就是窗口为整个表；</li>
+<li>如果省略order by 则不进行排序；</li>
+</ul>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> <strong>总结</strong></h2>
+<p><strong>1.窗口函数的语法：</strong></p>
+<p>窗口函数 over (partition by 用于分列的列名 order by 用于排序的列名）；</p>
+<p>**2.功能：**既能分组又可以排序，且不改变行数</p>
+<p><strong>3.分类：</strong></p>
+<ul>
+<li>专用窗口函数—rank(),dense_rank(),row_number()（<em>括号中没有参数，注意区分三者区别）</em></li>
+<li>聚合函数—max(),min(),sum(),avg(),count() <em>(括号中有参数）</em></li>
+</ul>
+<p><strong>4.注意事项</strong></p>
+<p>原则上一般写在<strong>select子句</strong>中</p>
+<p><strong>5.应用场景</strong></p>
+<ul>
+<li>经典TOPN问题：找出每个部门工资排名前N的员工</li>
+</ul>
+<p><strong>模板</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">select*<br>from（select*，row_number() over (partition by 部门 order by salary desc) as ranking<br>from 表名) as a<br>where ranking&lt;=N;<br></code></pre></td></tr></table></figure>
+<p><em>注意：不要忘记起别名，子查询的别名以及排序结果的别名</em></p>
+<ul>
+<li>经典排名问题</li>
+</ul>
+<p>业务需求“在每个组内排名”，比如，每个部门按业绩来排名</p>
+<ul>
+<li>在每个组内比较问题</li>
+</ul>
+<p>可以用关联子查询，也可以用窗口函数实现</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/06/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E5%8E%9F%E7%90%86/">
+                        <span class="hidden-mobile">逻辑回归原理</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+</body>
+</html>

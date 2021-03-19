@@ -1,0 +1,712 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/blogicon.png">
+  <link rel="icon" type="image/png" href="/img/blogicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TTmu">
+  <meta name="keywords" content="">
+  <title>numpy基本使用 - TTmu Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":"G-56WTL0FXTW","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+<body>
+  <header style="height: 50vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lycoris ❤</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <script src="/live2d-widget/autoload.js"></script>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/default.webp') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="numpy基本使用">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-26 11:47" pubdate>
+        February 26, 2021 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">numpy基本使用</h1>
+            
+            <div class="markdown-body">
+              <h1 id="numpy基本使用"><a class="markdownIt-Anchor" href="#numpy基本使用"></a> numpy基本使用</h1>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/index.html">Numpy api reference</a></p>
+<a id="more"></a>
+<h2 id="numpy数据类型"><a class="markdownIt-Anchor" href="#numpy数据类型"></a> numpy数据类型</h2>
+<h3 id="数据结构"><a class="markdownIt-Anchor" href="#数据结构"></a> 数据结构</h3>
+<ul>
+<li>一个指向数据（内存或内存映射文件中的一块数据）的指针。</li>
+<li>数据类型或 dtype，描述在数组中的固定大小值的格子。</li>
+<li>一个表示数组形状（shape）的元组，表示各维度大小的元组。</li>
+<li>一个跨度元组（stride），其中的整数指的是为了前进到当前维度下一个元素需要&quot;跨过&quot;的字节数。</li>
+</ul>
+<h3 id="常见数据类型"><a class="markdownIt-Anchor" href="#常见数据类型"></a> 常见数据类型</h3>
+<table>
+<thead>
+<tr>
+<th>bool_</th>
+<th style="text-align:center">布尔型数据类型（True 或者 False）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int_</td>
+<td style="text-align:center">默认的整数类型（类似于 C 语言中的 long，int32 或 int64）</td>
+</tr>
+<tr>
+<td>intc</td>
+<td style="text-align:center">与 C 的 int 类型一样，一般是 int32 或 int 64</td>
+</tr>
+<tr>
+<td>intp</td>
+<td style="text-align:center">用于索引的整数类型（类似于 C 的 ssize_t，一般情况下仍然是 int32 或 int64）</td>
+</tr>
+<tr>
+<td>int8</td>
+<td style="text-align:center">字节（-128 to 127）</td>
+</tr>
+<tr>
+<td>int16</td>
+<td style="text-align:center">整数（-32768 to 32767）</td>
+</tr>
+<tr>
+<td>int32</td>
+<td style="text-align:center">整数（-2147483648 to 2147483647）</td>
+</tr>
+<tr>
+<td>int64</td>
+<td style="text-align:center">整数（-9223372036854775808 to 9223372036854775807）</td>
+</tr>
+<tr>
+<td>uint8</td>
+<td style="text-align:center">无符号整数（0 to 255）</td>
+</tr>
+<tr>
+<td>uint16</td>
+<td style="text-align:center">无符号整数（0 to 65535）</td>
+</tr>
+<tr>
+<td>uint32</td>
+<td style="text-align:center">无符号整数（0 to 4294967295）</td>
+</tr>
+<tr>
+<td>uint64</td>
+<td style="text-align:center">无符号整数（0 to 18446744073709551615）</td>
+</tr>
+<tr>
+<td>float_</td>
+<td style="text-align:center">float64 类型的简写</td>
+</tr>
+<tr>
+<td>float16</td>
+<td style="text-align:center">半精度浮点数，包括：1 个符号位，5 个指数位，10 个尾数位</td>
+</tr>
+<tr>
+<td>float32</td>
+<td style="text-align:center">单精度浮点数，包括：1 个符号位，8 个指数位，23 个尾数位</td>
+</tr>
+<tr>
+<td>float64</td>
+<td style="text-align:center">双精度浮点数，包括：1 个符号位，11 个指数位，52 个尾数位</td>
+</tr>
+<tr>
+<td>complex_</td>
+<td style="text-align:center">complex128 类型的简写，即 128 位复数</td>
+</tr>
+<tr>
+<td>complex64</td>
+<td style="text-align:center">复数，表示双 32 位浮点数（实数部分和虚数部分）</td>
+</tr>
+<tr>
+<td>complex128</td>
+<td style="text-align:center">复数，表示双 64 位浮点数（实数部分和虚数部分）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="创建ndarray数组对象"><a class="markdownIt-Anchor" href="#创建ndarray数组对象"></a> 创建NDarray数组对象</h2>
+<h3 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明</h3>
+<p>NumPy 数组的维数称为秩（rank），秩就是轴的数量，即数组的维度，一维数组的秩为 1，二维数组的秩为 2，以此类推。</p>
+<p>在 NumPy中，每一个线性的数组称为是一个轴（axis），也就是维度（dimensions）。比如说，二维数组相当于是两个一维数组，其中第一个一维数组中每个元素又是一个一维数组。所以一维数组就是 NumPy 中的轴（axis），第一个轴相当于是底层数组，第二个轴是底层数组里的数组。而轴的数量——秩，就是数组的维数。</p>
+<p>很多时候可以声明 axis。axis=0，表示沿着第 0 轴进行操作，即对每一列进行操作；axis=1，表示沿着第1轴进行操作，即对每一行进行操作。</p>
+<p>NumPy 的数组中比较重要 ndarray 对象属性有：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">ndarray.ndim</td>
+<td style="text-align:left">秩，即轴的数量或维度的数量</td>
+</tr>
+<tr>
+<td style="text-align:left">ndarray.shape</td>
+<td style="text-align:left">数组的维度，对于矩阵，n 行 m 列</td>
+</tr>
+<tr>
+<td style="text-align:left">ndarray.size</td>
+<td style="text-align:left">数组元素的总个数，相当于 .shape 中 n*m 的值</td>
+</tr>
+<tr>
+<td style="text-align:left">ndarray.dtype</td>
+<td style="text-align:left">ndarray 对象的元素类型</td>
+</tr>
+<tr>
+<td style="text-align:left">ndarray.itemsize</td>
+<td style="text-align:left">ndarray 对象中每个元素的大小，以字节为单位</td>
+</tr>
+<tr>
+<td style="text-align:left">ndarray.flags</td>
+<td style="text-align:left">ndarray 对象的内存信息</td>
+</tr>
+<tr>
+<td style="text-align:left">ndarray.real</td>
+<td style="text-align:left">ndarray元素的实部</td>
+</tr>
+<tr>
+<td style="text-align:left">ndarray.imag</td>
+<td style="text-align:left">ndarray 元素的虚部</td>
+</tr>
+<tr>
+<td style="text-align:left">ndarray.data</td>
+<td style="text-align:left">包含实际数组元素的缓冲区，由于一般通过数组的索引获取元素，所以通常不需要使用这个属性。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="array"><a class="markdownIt-Anchor" href="#array"></a> array()</h3>
+<p>创建数组</p>
+<p>参数：shape，dtype，buffer，offset，strides，order</p>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html?highlight=ndarray%20array#numpy.ndarray">详情</a></p>
+<h3 id="asarray"><a class="markdownIt-Anchor" href="#asarray"></a> asarray()</h3>
+<p>将输入转化为数组</p>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.asarray.html?highlight=ndarray%20asarray">详情</a></p>
+<h3 id="empty"><a class="markdownIt-Anchor" href="#empty"></a> empty()</h3>
+<p>创建一个数组，但保持其分配的内存不变(即，它包含“垃圾”)。</p>
+<h3 id="zeros"><a class="markdownIt-Anchor" href="#zeros"></a> zeros()</h3>
+<p>创建一个数组，其中每个元素都为零。</p>
+<h3 id="ones"><a class="markdownIt-Anchor" href="#ones"></a> ones()</h3>
+<p>创建一个数组，其中每个元素都为一。</p>
+<h3 id="full"><a class="markdownIt-Anchor" href="#full"></a> full()</h3>
+<p>返回一个给定形状和类型的新数组，并填充 fill _ value。</p>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.full.html?highlight=full#numpy.full">详情</a></p>
+<h3 id="eye"><a class="markdownIt-Anchor" href="#eye"></a> eye()</h3>
+<p>返回一个2-D 数组，对角线上有1，其他地方有0。</p>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.eye.html?highlight=eye#numpy.eye">详情</a></p>
+<h3 id="arange"><a class="markdownIt-Anchor" href="#arange"></a> arange()</h3>
+<p>在给定的间隔内返回均匀间隔的值。</p>
+<p>值在半开区间[开始，停止]内生成(换句话说，包括开始但不包括停止的区间)。对于整数参数，该函数等效于 Python 内置的 range 函数，但返回一个 ndarray 而不是一个列表。</p>
+<p>当使用非整数步骤(如0.1)时，结果通常不一致。对于这些情况，最好使用 numpy.linspace。</p>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.arange.html?highlight=arange#numpy.arange">详情</a></p>
+<h3 id="fromiter"><a class="markdownIt-Anchor" href="#fromiter"></a> fromiter()</h3>
+<p>从可迭代对象创建一个新的一维数组。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs maxima">iterable = (x*x <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>))<br><span class="hljs-built_in">np</span>.fromiter(iterable, <span class="hljs-built_in">float</span>)<br>&gt;&gt;&gt;<span class="hljs-built_in">array</span>([  <span class="hljs-number">0</span>.,   <span class="hljs-number">1</span>.,   <span class="hljs-number">4</span>.,   <span class="hljs-number">9</span>.,  <span class="hljs-number">16</span>.])<br></code></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.fromiter.html?highlight=fromiter#numpy.fromiter">详情</a></p>
+<h3 id="linspace"><a class="markdownIt-Anchor" href="#linspace"></a> linspace()</h3>
+<p>在指定的间隔内返回均匀间隔的数字。</p>
+<p>返回按间隔[开始，停止]计算的 num 均匀间隔的样本。</p>
+<p>可以选择排除间隔的终结点。</p>
+<blockquote>
+<p>在版本1.16.0中更改: 现在支持非标量启动和停止。</p>
+</blockquote>
+<blockquote>
+<p>在版本1.20.0中更改: 当指定整数 dtype 时，值被舍入为-inf，而不是0。旧的行为仍然可以通过 np.linspace (start、 stop、 num)获得。Astype (int)</p>
+</blockquote>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">np.linspace(2.0, 3.0, <span class="hljs-attribute">num</span>=5)<br>&gt;&gt;&gt;array([2.  , 2.25, 2.5 , 2.75, 3.  ])<br>np.linspace(2.0, 3.0, <span class="hljs-attribute">num</span>=5, <span class="hljs-attribute">endpoint</span>=<span class="hljs-literal">False</span>)<br>&gt;&gt;&gt;array([2. ,  2.2,  2.4,  2.6,  2.8])<br>np.linspace(2.0, 3.0, <span class="hljs-attribute">num</span>=5, <span class="hljs-attribute">retstep</span>=<span class="hljs-literal">True</span>)<br>&gt;&gt;&gt;(array([2.  ,  2.25,  2.5 ,  2.75,  3.  ]), 0.25)<br></code></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html?highlight=linspace#numpy.linspace">详情</a></p>
+<h3 id="logspace"><a class="markdownIt-Anchor" href="#logspace"></a> logspace()</h3>
+<p>返回在对数刻度上均匀间隔的数字。</p>
+<p>在线性空间中，序列从 base * * start 开始(base to the power of start) ，以 base * * stop 结束(参见下面的端点)。</p>
+<blockquote>
+<p>在版本1.16.0中更改: 现在支持非标量启动和停止。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.logspace.html?highlight=logspace#numpy.logspace">详情</a></p>
+<h3 id="randomrandom"><a class="markdownIt-Anchor" href="#randomrandom"></a> random.random()</h3>
+<p>返回半开区间内的随机浮动值[0.0,1.0]。为<strong>random_sample</strong>的别名，以方便前向移植到新的随机 API。</p>
+<h3 id="randomrandint"><a class="markdownIt-Anchor" href="#randomrandint"></a> random.randint()</h3>
+<p>从低(包含)到高(排他)返回随机<strong>整数</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.randint.html?highlight=random%20randint#numpy.random.randint">详情</a></p>
+<h3 id="randomrandn"><a class="markdownIt-Anchor" href="#randomrandn"></a> random.randn()</h3>
+<p>从“标准正态”分布中返回一个样本(或个样本)。</p>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html?highlight=random%20randn#numpy.random.randn">详情</a></p>
+<h3 id="randomnormal"><a class="markdownIt-Anchor" href="#randomnormal"></a> random.normal()</h3>
+<p>从正态(高斯)分布中随机抽取样本。</p>
+<blockquote>
+<p>正态分布在自然界中经常发生。例如，它描述了受大量微小的随机扰动影响的样本的常见分布，每个样本都有其独特的分布[2]。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.normal.html?highlight=random%20normal#numpy.random.normal">详情</a></p>
+<h2 id="numpy数组与python中列表的对比"><a class="markdownIt-Anchor" href="#numpy数组与python中列表的对比"></a> numpy数组与python中列表的对比</h2>
+<h2 id="ndarray数组的属性"><a class="markdownIt-Anchor" href="#ndarray数组的属性"></a> Ndarray数组的属性</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br></code></pre></td></tr></table></figure>
+<h3 id="ndim"><a class="markdownIt-Anchor" href="#ndim"></a> ndim</h3>
+<p>ndarray.ndim 用于返回数组的维数，等于秩。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.arange(<span class="hljs-number">24</span>)  <br><span class="hljs-built_in">print</span> (a.ndim)   <br><br>&gt;&gt;&gt;<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<h3 id="shape"><a class="markdownIt-Anchor" href="#shape"></a> shape</h3>
+<p>ndarray.shape 表示数组的维度，返回一个元组，这个元组的长度就是维度的数目，即 ndim 属性(秩)。比如，一个二维数组，其维度表示&quot;行数&quot;和&quot;列数&quot;。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.array([[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>],[<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]])  <br><span class="hljs-built_in">print</span> (a.shape)<br><br><span class="hljs-meta">&gt;&gt;&gt; </span>(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="reshape"><a class="markdownIt-Anchor" href="#reshape"></a> reshape</h3>
+<p>ndarray.reshape 函数来调整数组大小。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.array([[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>],[<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]]) <br>b = a.reshape(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>)  <br><span class="hljs-built_in">print</span> (b)<br><br>&gt;&gt;&gt;[[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>] <br>   [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>] <br>   [<span class="hljs-number">5</span>, <span class="hljs-number">6</span>]]<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>ndarray.reshape 通常返回的是非拷贝副本，即改变返回后数组的元素，原数组对应元素的值也会改变。</p>
+</blockquote>
+<h3 id="size"><a class="markdownIt-Anchor" href="#size"></a> size</h3>
+<p>ndarray.size用于表示数组中的元素数，也等于np.prod(a.shape),即数组维数的乘积</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-keyword">x</span> <span class="hljs-operator">=</span> np.zeros((<span class="hljs-number">3</span><span class="hljs-punctuation">,</span> <span class="hljs-number">5</span><span class="hljs-punctuation">,</span> <span class="hljs-number">2</span>)<span class="hljs-punctuation">,</span> dtype<span class="hljs-operator">=</span>np.complex<span class="hljs-number">128</span>)<br><span class="hljs-keyword">x</span>.size<br>&gt;&gt;&gt;<span class="hljs-number">30</span><br>np.prod(<span class="hljs-keyword">x</span>.shape)<br>&gt;&gt;&gt;<span class="hljs-number">30</span><br></code></pre></td></tr></table></figure>
+<h3 id="dtype"><a class="markdownIt-Anchor" href="#dtype"></a> dtype</h3>
+<p>ndarray.dtype 用于表示元素的数据类型</p>
+<h3 id="itemsize"><a class="markdownIt-Anchor" href="#itemsize"></a> itemsize</h3>
+<p>ndarray.itemsize 以字节的形式返回数组中每一个元素的大小。</p>
+<p>例如，一个元素类型为 float64 的数组 itemsize 属性值为 8(float64 占用 64 个 bits，每个字节长度为 8，所以 64/8，占用 8 个字节），又如，一个元素类型为 complex32 的数组 item 属性为 4（32/8）。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs maxima">x = <span class="hljs-built_in">np</span>.<span class="hljs-built_in">array</span>([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>], dtype = <span class="hljs-built_in">np</span>.int8)  <br><span class="hljs-built_in">print</span> (x.itemsize)<br><br>&gt;&gt;&gt;<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<h3 id="flags"><a class="markdownIt-Anchor" href="#flags"></a> Flags</h3>
+<p>ndarray.flags 返回 ndarray 对象的内存信息，包含以下属性：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">C_CONTIGUOUS ©</td>
+<td style="text-align:left">数据是在一个单一的C风格的连续段中</td>
+</tr>
+<tr>
+<td style="text-align:left">F_CONTIGUOUS (F)</td>
+<td style="text-align:left">数据是在一个单一的Fortran风格的连续段中</td>
+</tr>
+<tr>
+<td style="text-align:left">OWNDATA (O)</td>
+<td style="text-align:left">数组拥有它所使用的内存或从另一个对象中借用它</td>
+</tr>
+<tr>
+<td style="text-align:left">WRITEABLE (W)</td>
+<td style="text-align:left">数据区域可以被写入，将该值设置为 False，则数据为只读</td>
+</tr>
+<tr>
+<td style="text-align:left">ALIGNED (A)</td>
+<td style="text-align:left">数据和所有元素都适当地对齐到硬件上</td>
+</tr>
+<tr>
+<td style="text-align:left">UPDATEIFCOPY (U)</td>
+<td style="text-align:left">这个数组是其它数组的一个副本，当这个数组被释放时，原数组的内容将被更新</td>
+</tr>
+</tbody>
+</table>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/python/">python</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/numpy/">numpy</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/02/27/scrapy-%E4%BB%8E%E5%85%B6%E4%BB%96%E8%84%9A%E6%9C%AC%E8%BF%90%E8%A1%8C%E4%B8%A4%E6%AC%A1%E4%BB%A5%E4%B8%8A/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">scrapy 从其他脚本运行两次以上</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/26/%E5%88%9D%E8%AF%86numpy/">
+                        <span class="hidden-mobile">初识numpy</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+</body>
+</html>
