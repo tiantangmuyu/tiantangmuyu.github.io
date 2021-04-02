@@ -29,7 +29,7 @@
     
     
       
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/tomorrow-night.min.css" />
     
   
 
@@ -254,7 +254,7 @@
 </li>
 </ol>
 <h4 id="rank函数"><a class="markdownIt-Anchor" href="#rank函数"></a> <strong>rank()函数</strong></h4>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mysql">#按班级分类，将成绩降序排序<br>SELECT*,<br>rank() over ( PARTITION BY 班级 ORDER BY 成绩 DESC)  AS ranking  <br>FROM class; <br></code></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mysql">#按班级分类，将成绩降序排序<br>SELECT*,<br>rank() over ( PARTITION BY 班级 ORDER BY 成绩 DESC)  AS ranking  <br>FROM class; <br></code></pre></div></td></tr></table></figure>
 <p><strong>说明</strong></p>
 <ul>
 <li>rank()是排序函数，括号中不需要有参数；</li>
@@ -271,7 +271,7 @@
 <ul>
 <li>用法与rank（）函数相同</li>
 </ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">SELECT*,<br>dense_rank() over ( PARTITION BY 班级 ORDER BY 成绩 DESC)  AS ranking  <br>FROM class;  <br>SELECT*,<br>row_number() over ( PARTITION BY 班级 ORDER BY 成绩 DESC)  AS ranking  <br>FROM class; <br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">SELECT*,<br>dense_rank() over ( PARTITION BY 班级 ORDER BY 成绩 DESC)  AS ranking  <br>FROM class;  <br>SELECT*,<br>row_number() over ( PARTITION BY 班级 ORDER BY 成绩 DESC)  AS ranking  <br>FROM class; <br></code></pre></div></td></tr></table></figure>
 <ul>
 <li>当成绩相同时，会存在并列的情况，<strong>主要区别是三个函数如何处理并列情况</strong>：</li>
 </ul>
@@ -282,7 +282,7 @@
 <ul>
 <li><strong>案例</strong></li>
 </ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">#要求按成绩排名，如果出现并列，需要出现类似1,1,1,2的形式<br>SELECT *,<br>dense_rank() over (PARTITION BY 班级 ORDER BY 成绩) AS 排名<br>FROM class;<br><br>#在test1表中按成绩排名，如果有并列情况，则两个分数的排名相同，也就是平分后的下一个名词应该是下一个连续的整数值，名词之间不应该有间隔<br>dense_rank () over (ORDER BY score DESC) AS ranking<br>FROM test1;<br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">#要求按成绩排名，如果出现并列，需要出现类似1,1,1,2的形式<br>SELECT *,<br>dense_rank() over (PARTITION BY 班级 ORDER BY 成绩) AS 排名<br>FROM class;<br><br>#在test1表中按成绩排名，如果有并列情况，则两个分数的排名相同，也就是平分后的下一个名词应该是下一个连续的整数值，名词之间不应该有间隔<br>dense_rank () over (ORDER BY score DESC) AS ranking<br>FROM test1;<br></code></pre></div></td></tr></table></figure>
 <p><img src="https://pic3.zhimg.com/80/v2-a210dc64e2b2232bdf01bad98494474a_720w.jpg" srcset="/img/loading.gif" alt="img" /></p>
 <h2 id="经典面试问题-topn问题"><a class="markdownIt-Anchor" href="#经典面试问题-topn问题"></a> <strong>经典面试问题-topN问题</strong></h2>
 <ol>
@@ -297,19 +297,19 @@
 <ul>
 <li><strong>分组取最大值(用关联子查询）</strong></li>
 </ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询每个学号成绩是最大的所有信息<br>SELECT* FROM score AS a <br>WHERE 成绩=( SELECT MAX(成绩) <br>FROM score AS b <br>WHERE a.`学号`=b.`学号`); <br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">#查询每个学号成绩是最大的所有信息<br>SELECT* FROM score AS a <br>WHERE 成绩=( SELECT MAX(成绩) <br>FROM score AS b <br>WHERE a.`学号`=b.`学号`); <br></code></pre></div></td></tr></table></figure>
 <p><img src="https://pic3.zhimg.com/80/v2-31bdcce9bf89e8da823888177bde988e_720w.jpg" srcset="/img/loading.gif" alt="img" /></p>
 <p><em>注意：因为0003号选择的三个课程成绩一样，所以最大成绩有三个</em></p>
 <ul>
 <li><strong>分组取最小值</strong></li>
 </ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询每个学号成绩是最大的所有信息<br>SELECT* <br>FROM score AS a <br>WHERE 成绩=( SELECT MIN(成绩) <br>FROM score AS b <br>WHERE a.`学号`=b.`学号`); <br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">#查询每个学号成绩是最大的所有信息<br>SELECT* <br>FROM score AS a <br>WHERE 成绩=( SELECT MIN(成绩) <br>FROM score AS b <br>WHERE a.`学号`=b.`学号`); <br></code></pre></div></td></tr></table></figure>
 <p><img src="https://pic3.zhimg.com/80/v2-57cd1d523591c9a895c09a929de7e51a_720w.jpg" srcset="/img/loading.gif" alt="img" /></p>
 <p><em>注意：因为0003号选择的三个课程成绩一样，所以最小成绩有三个</em></p>
 <ul>
 <li><strong>分组取最大N条记录</strong></li>
 </ul>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询每个学生成绩最高的两个科目<br>SELECT *<br>FROM (SELECT*,row_number() over (PARTITION BY 姓名 ORDER BY 成绩 DESC) AS ranking <br>FROM test1) AS newtest<br>WHERE ranking&lt;=2;<br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">#查询每个学生成绩最高的两个科目<br>SELECT *<br>FROM (SELECT*,row_number() over (PARTITION BY 姓名 ORDER BY 成绩 DESC) AS ranking <br>FROM test1) AS newtest<br>WHERE ranking&lt;=2;<br></code></pre></div></td></tr></table></figure>
 <p>说明</p>
 <ul>
 <li>为了不受并列的影响，该题用row_number()</li>
@@ -318,12 +318,12 @@
 <li>涉及到既要分组又要排序的情况，要想到用窗口函数</li>
 </ul>
 <p><strong>TOPN问题模板</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">SELECT *<br>FROM (SELECT*,row_number() over (PARTITION BY 姓名 ORDER BY 成绩 DESC) AS ranking <br>FROM test1) AS newtest<br>WHERE ranking&lt;=N;<br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">SELECT *<br>FROM (SELECT*,row_number() over (PARTITION BY 姓名 ORDER BY 成绩 DESC) AS ranking <br>FROM test1) AS newtest<br>WHERE ranking&lt;=N;<br></code></pre></div></td></tr></table></figure>
 <h2 id="聚合函数作为窗口函数"><a class="markdownIt-Anchor" href="#聚合函数作为窗口函数"></a> <strong>聚合函数作为窗口函数</strong></h2>
 <p><strong>作用</strong>：聚合函数作为窗口函数，是起到&quot;累加/累计&quot;的效果，比如，就是截止到本行，最大值？最小值是多少</p>
 <p><strong>与专用窗口函数的区别</strong>：括号中需要有指定列，不能为空</p>
 <p><strong>用法</strong>：与专用窗口函数相同</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询成绩的累加 <br>SELECT*, SUM(成绩) over (ORDER BY 成绩 DESC) AS &#x27;求和&#x27; <br>FROM class; <br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">#查询成绩的累加 <br>SELECT*, SUM(成绩) over (ORDER BY 成绩 DESC) AS &#x27;求和&#x27; <br>FROM class; <br></code></pre></div></td></tr></table></figure>
 <p><strong>案例</strong></p>
 <p>#查找单科成绩高于该科目平均成绩的学生名单</p>
 <p><strong>法一解题思路：</strong></p>
@@ -350,9 +350,9 @@
 <li>学生名单：输出信息中需要有学生姓名</li>
 </ul>
 <p><strong>步骤1：求分组平均值</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">SELECT AVG(成绩) AS 平均值,科目 <br>FROM test3  <br>GROUP BY 科目； <br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">SELECT AVG(成绩) AS 平均值,科目 <br>FROM test3  <br>GROUP BY 科目； <br></code></pre></div></td></tr></table></figure>
 <p><strong>步骤2：比较</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">SELECT* <br>FROM test3 AS a <br>WHERE 成绩&gt;(SELECT AVG(成绩) AS 平均值 <br>FROM test3 AS b <br>WHERE a.`科目`=b.`科目`); <br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">SELECT* <br>FROM test3 AS a <br>WHERE 成绩&gt;(SELECT AVG(成绩) AS 平均值 <br>FROM test3 AS b <br>WHERE a.`科目`=b.`科目`); <br></code></pre></div></td></tr></table></figure>
 <p><em>因为是按照科目分组，所以应该将科目进行关联</em></p>
 <h2 id="窗口函数的移动平均以平均值为例"><a class="markdownIt-Anchor" href="#窗口函数的移动平均以平均值为例"></a> <strong>窗口函数的移动平均（以平均值为例）</strong></h2>
 <p>**作用：**通过preceding,following,current row等调整作用范围，基本语法为</p>
@@ -366,7 +366,7 @@
 <li>UNBOUNDED FOLLOWING：窗口的最后一行</li>
 </ul>
 <p><strong>用法：</strong></p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">#查询前两行到当前行的平均成绩<br>SELECT *,<br>AVG(成绩) over (ORDER BY 姓名 ROWS 2 preceding) AS result <br>FROM test3;<br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">#查询前两行到当前行的平均成绩<br>SELECT *,<br>AVG(成绩) over (ORDER BY 姓名 ROWS 2 preceding) AS result <br>FROM test3;<br></code></pre></div></td></tr></table></figure>
 <p><strong>解释：</strong></p>
 <p>rows N proceding—N表示在当前行的前N行，比如，N=2，当前行在第4行，那么该平均值是第2行，第3行，第4行，这三行数据的平均值</p>
 <h2 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> <strong>注意事项</strong></h2>
@@ -390,7 +390,7 @@
 <li>经典TOPN问题：找出每个部门工资排名前N的员工</li>
 </ul>
 <p><strong>模板</strong>：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">select*<br>from（select*，row_number() over (partition by 部门 order by salary desc) as ranking<br>from 表名) as a<br>where ranking&lt;=N;<br></code></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs text">select*<br>from（select*，row_number() over (partition by 部门 order by salary desc) as ranking<br>from 表名) as a<br>where ranking&lt;=N;<br></code></pre></div></td></tr></table></figure>
 <p><em>注意：不要忘记起别名，子查询的别名以及排序结果的别名</em></p>
 <ul>
 <li>经典排名问题</li>

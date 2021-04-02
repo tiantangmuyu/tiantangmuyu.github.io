@@ -29,7 +29,7 @@
     
     
       
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/tomorrow-night.min.css" />
     
   
 
@@ -243,11 +243,11 @@
 <li>
 <p>克隆环境</p>
 <p>Envs_names离线环境名       base 本地环境名</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">conda create --name envs_names --<span class="hljs-keyword">clone</span> <span class="hljs-title">base</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight crmsh"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs crmsh">conda create --name envs_names --<span class="hljs-keyword">clone</span> <span class="hljs-title">base</span><br></code></pre></div></td></tr></table></figure>
 </li>
 <li>
 <p>导出依赖包信息</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">pip <span class="hljs-keyword">freeze</span> &gt; requirements.txt<br></code></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs pgsql">pip <span class="hljs-keyword">freeze</span> &gt; requirements.txt<br></code></pre></div></td></tr></table></figure>
 <h4 id="遇到的问题"><a class="markdownIt-Anchor" href="#遇到的问题"></a> 遇到的问题：</h4>
 <p>使用 <code>pip freeze &gt; requirements.txt</code> 命令导出已安装的模块，其中部分模块显示了 <code>@ file:///...</code>，而不是具体的版本号。</p>
 <p>直接在其他机器上边使用 <code>pip install -r requirements.txt</code> 安装模块时，就会遇到如下错误</p>
@@ -259,18 +259,18 @@ file or directory: 路径</p>
 <p>这是 pip 安装软件包的一种特殊语法（自19.1开始受支持）<a target="_blank" rel="noopener" href="https://www.python.org/dev/peps/pep-0440/#direct-references">PEP404</a>，<br />
 但是该此种路径取决于环境，<code>file:///URL</code> 仅在本地文件系统上可用，你不能将生成的 <code>requirements.txt</code> 文件提供给其他人使用</p>
 <h4 id="解决方法"><a class="markdownIt-Anchor" href="#解决方法"></a> 解决方法</h4>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">pip list <span class="hljs-attribute">--format</span>=freeze &gt; requirements.txt<br></code></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros">pip list <span class="hljs-attribute">--format</span>=freeze &gt; requirements.txt<br></code></pre></div></td></tr></table></figure>
 <blockquote>
 <p>使用上述命令导出的文件中，会包含如下几个包：distribute，pip，setuptools，wheel，建议手动删除！</p>
 </blockquote>
 </li>
 <li>
 <p>下载依赖包到本地</p>
-<figure class="highlight mizar"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mizar">pip download -r <span class="hljs-keyword">requirements</span>.txt -d your_dirs<br></code></pre></td></tr></table></figure>
+<figure class="highlight mizar"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs mizar">pip download -r <span class="hljs-keyword">requirements</span>.txt -d your_dirs<br></code></pre></div></td></tr></table></figure>
 </li>
 </ol>
 <h2 id="在其他离线环境安装所有依赖"><a class="markdownIt-Anchor" href="#在其他离线环境安装所有依赖"></a> 在其他离线环境安装所有依赖</h2>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">pip install -r requirements.txt --<span class="hljs-keyword">no</span>-<span class="hljs-built_in">index</span> --<span class="hljs-keyword">find</span>-links=your_dirs <br></code></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim">pip install -r requirements.txt --<span class="hljs-keyword">no</span>-<span class="hljs-built_in">index</span> --<span class="hljs-keyword">find</span>-links=your_dirs <br></code></pre></div></td></tr></table></figure>
 
             </div>
             <hr>

@@ -29,7 +29,7 @@
     
     
       
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/tomorrow-night.min.css" />
     
   
 
@@ -234,14 +234,14 @@
 <a id="more"></a>
 <h2 id="方法一"><a class="markdownIt-Anchor" href="#方法一"></a> 方法一</h2>
 <p>最简单的方法就是采用pandas中自带的 sample这个方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.sample(frac=<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">df.sample(frac=<span class="hljs-number">1</span>)<br></code></pre></div></td></tr></table></figure>
 <p>frac是要返回的比例，比如df中有10行数据，我只想返回其中的30%,那么frac=0.3。</p>
 <p>有时候，我们可能需要打混后数据集的index（索引）还是按照正常的排序。我们只需要这样操作</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.sample(frac=<span class="hljs-number">1</span>).reset_index(drop=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">df.sample(frac=<span class="hljs-number">1</span>).reset_index(drop=<span class="hljs-literal">True</span>)<br></code></pre></div></td></tr></table></figure>
 <h2 id="方法二"><a class="markdownIt-Anchor" href="#方法二"></a> 方法二</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.utils <span class="hljs-keyword">import</span> shuffle<br><br>df = shuffle(df)<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.utils <span class="hljs-keyword">import</span> shuffle<br><br>df = shuffle(df)<br></code></pre></div></td></tr></table></figure>
 <h2 id="方法三"><a class="markdownIt-Anchor" href="#方法三"></a> 方法三</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.iloc[np.random.permutation(<span class="hljs-built_in">len</span>(df))]<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">df.iloc[np.random.permutation(<span class="hljs-built_in">len</span>(df))]<br></code></pre></div></td></tr></table></figure>
 
             </div>
             <hr>
