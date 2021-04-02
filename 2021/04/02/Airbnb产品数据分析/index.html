@@ -1,0 +1,1272 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/blogicon.png">
+  <link rel="icon" type="image/png" href="/img/blogicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="TTmu">
+  <meta name="keywords" content="">
+  <title>Airbnb产品数据分析 - TTmu Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":"G-56WTL0FXTW","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+<body>
+  <header style="height: 50vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lycoris ❤</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <script src="/live2d-widget/autoload.js"></script>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/default.webp') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Airbnb产品数据分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-02 10:58" pubdate>
+        April 2, 2021 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      47
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Airbnb产品数据分析</h1>
+            
+            <div class="markdown-body">
+              <h1 id="airbnb产品数据分析"><a class="markdownIt-Anchor" href="#airbnb产品数据分析"></a> Airbnb产品数据分析</h1>
+<a id="more"></a>
+<blockquote>
+<p>数据处理工具：python</p>
+<p>图像绘制工具：power bi</p>
+</blockquote>
+<h2 id="1背景"><a class="markdownIt-Anchor" href="#1背景"></a> 1.背景</h2>
+<p><strong>Airbnb</strong>是一个旅行房屋租赁社区，用户可通过网络或手机应用程序发布、搜索度假房屋租赁信息并完成在线预定程序。 据官网显示 以及媒体报道 ，其社区平台在191个国家、65,000个城市为旅行者们提供数以百万计的独特入住选择，不管是公寓、别墅、城堡还是树屋。 <strong>Airbnb</strong>被时代周刊称为“住房中的EBay”。</p>
+<h2 id="2分析目的"><a class="markdownIt-Anchor" href="#2分析目的"></a> 2.分析目的</h2>
+<p>根据AARRR模型，从以下角度分析问题：</p>
+<p>Acquisition：用户群特征有哪些？如何获取更多用户？</p>
+<p>Activation：用户激活率是多少？用户激活漏斗模型。</p>
+<p>Retention ：留存及复购情况如何？</p>
+<p>Revenue/Refer：营销渠道的推广效果如何？当前转化率是多少？</p>
+<h2 id="3数据来源"><a class="markdownIt-Anchor" href="#3数据来源"></a> 3.数据来源</h2>
+<h3 id="来源"><a class="markdownIt-Anchor" href="#来源"></a> 来源：</h3>
+<p><a target="_blank" rel="noopener" href="https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings/data">数据来自来自kaggle</a></p>
+<h3 id="预览"><a class="markdownIt-Anchor" href="#预览"></a> 预览：</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#读取数据并把date_account_created转换为datetime类型</span><br>basic_path = <span class="hljs-string">r&quot;D:\github\数据集\Airbnb产品&quot;</span><br>train_users_df = pd.read_csv(basic_path + <span class="hljs-string">r&#x27;\train_users.csv&#x27;</span>,parse_dates=[<span class="hljs-string">&#x27;date_account_created&#x27;</span>])<br><span class="hljs-comment">#sessions_df = pd.read_csv(basic_path + r&#x27;\sessions.csv&#x27;)</span><br>print(train_users_df.head())<br></code></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs apache">  <span class="hljs-attribute">id</span> date_account_created  timestamp_first_active date_first_booking  \<br><span class="hljs-attribute">0</span>  gxn<span class="hljs-number">3</span>p<span class="hljs-number">5</span>htnn           <span class="hljs-number">2010</span>-<span class="hljs-number">06</span>-<span class="hljs-number">28</span>          <span class="hljs-number">20090319043255</span>                NaN   <br><span class="hljs-attribute">1</span>  <span class="hljs-number">820</span>tgsjxq<span class="hljs-number">7</span>           <span class="hljs-number">2011</span>-<span class="hljs-number">05</span>-<span class="hljs-number">25</span>          <span class="hljs-number">20090523174809</span>                NaN   <br><span class="hljs-attribute">2</span>  <span class="hljs-number">4</span>ft<span class="hljs-number">3</span>gnwmtx           <span class="hljs-number">2010</span>-<span class="hljs-number">09</span>-<span class="hljs-number">28</span>          <span class="hljs-number">20090609231247</span>         <span class="hljs-number">2010</span>-<span class="hljs-number">08</span>-<span class="hljs-number">02</span>   <br><span class="hljs-attribute">3</span>  bjjt<span class="hljs-number">8</span>pjhuk           <span class="hljs-number">2011</span>-<span class="hljs-number">12</span>-<span class="hljs-number">05</span>          <span class="hljs-number">20091031060129</span>         <span class="hljs-number">2012</span>-<span class="hljs-number">09</span>-<span class="hljs-number">08</span>   <br><span class="hljs-attribute">4</span>  <span class="hljs-number">87</span>mebub<span class="hljs-number">9</span>p<span class="hljs-number">4</span>           <span class="hljs-number">2010</span>-<span class="hljs-number">09</span>-<span class="hljs-number">14</span>          <span class="hljs-number">20091208061105</span>         <span class="hljs-number">2010</span>-<span class="hljs-number">02</span>-<span class="hljs-number">18</span>   <br><br>      <span class="hljs-attribute">gender</span>   age signup_method  signup_flow language affiliate_channel  \<br><br><span class="hljs-attribute">0</span>  -unknown-   NaN      facebook            <span class="hljs-number">0</span>       en            direct   <br><span class="hljs-attribute">1</span>       MALE  <span class="hljs-number">38</span>.<span class="hljs-number">0</span>      facebook            <span class="hljs-number">0</span>       en               seo   <br><span class="hljs-attribute">2</span>     FEMALE  <span class="hljs-number">56</span>.<span class="hljs-number">0</span>         basic            <span class="hljs-number">3</span>       en            direct   <br><span class="hljs-attribute">3</span>     FEMALE  <span class="hljs-number">42</span>.<span class="hljs-number">0</span>      facebook            <span class="hljs-number">0</span>       en            direct   <br><span class="hljs-attribute">4</span>  -unknown-  <span class="hljs-number">41</span>.<span class="hljs-number">0</span>         basic            <span class="hljs-number">0</span>       en            direct   <br><br>  <span class="hljs-attribute">affiliate_provider</span> first_affiliate_tracked signup_app first_device_type  \<br><span class="hljs-attribute">0</span>             direct               untracked        Web       Mac Desktop   <br><span class="hljs-attribute">1</span>             google               untracked        Web       Mac Desktop   <br><span class="hljs-attribute">2</span>             direct               untracked        Web   Windows Desktop   <br><span class="hljs-attribute">3</span>             direct               untracked        Web       Mac Desktop   <br><span class="hljs-attribute">4</span>             direct               untracked        Web       Mac Desktop   <br><br>  <span class="hljs-attribute">first_browser</span> country_destination  <br><span class="hljs-attribute">0</span>        Chrome                 NDF  <br><span class="hljs-attribute">1</span>        Chrome                 NDF  <br><span class="hljs-attribute">2</span>            IE                  US  <br><span class="hljs-attribute">3</span>       Firefox               other  <br><span class="hljs-attribute">4</span>        Chrome                  US  <br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>数据表：train_users</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>用户ID</td>
+</tr>
+<tr>
+<td>date_account_created</td>
+<td>帐户创建日期</td>
+</tr>
+<tr>
+<td>date_first_booking</td>
+<td>首次预订的日期</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>性别</td>
+</tr>
+<tr>
+<td>age</td>
+<td>年龄</td>
+</tr>
+<tr>
+<td>signup_method</td>
+<td>注册方式</td>
+</tr>
+<tr>
+<td>signup_flow</td>
+<td>用户注册的页面</td>
+</tr>
+<tr>
+<td>language</td>
+<td>语言偏好</td>
+</tr>
+<tr>
+<td>affiliate_channel</td>
+<td>营销方式</td>
+</tr>
+<tr>
+<td>affiliate_provider</td>
+<td>营销来源，例如google，craigslist，其他</td>
+</tr>
+<tr>
+<td>first_affiliate_tracked</td>
+<td>在注册之前，用户与之交互的第一个营销广告是什么</td>
+</tr>
+<tr>
+<td>signup_app</td>
+<td>注册来源</td>
+</tr>
+<tr>
+<td>first_device_type</td>
+<td>注册时设备的类型</td>
+</tr>
+<tr>
+<td>first_browser</td>
+<td>注册时使用的浏览器名称</td>
+</tr>
+<tr>
+<td>country_destination</td>
+<td>目的地国家</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>数据表sessions</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user_id</td>
+<td>与users表中的“id”列连接</td>
+</tr>
+<tr>
+<td>action</td>
+<td>埋点名称</td>
+</tr>
+<tr>
+<td>action_type</td>
+<td>操作事件的类型</td>
+</tr>
+<tr>
+<td>action_detail</td>
+<td>操作事件的描述</td>
+</tr>
+<tr>
+<td>device_type</td>
+<td>此次会话所使用的设备</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4数据清洗"><a class="markdownIt-Anchor" href="#4数据清洗"></a> 4.数据清洗</h2>
+<h3 id="缺失值查看"><a class="markdownIt-Anchor" href="#缺失值查看"></a> 缺失值查看</h3>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">train_users_df</span><span class="hljs-selector-class">.isnull</span>()<span class="hljs-selector-class">.sum</span>()<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">id</span>                              <span class="hljs-number">0</span><br>date_account_created            <span class="hljs-number">0</span><br>timestamp_first_active          <span class="hljs-number">0</span><br>date_first_booking         <span class="hljs-number">124543</span><br>gender                          <span class="hljs-number">0</span><br>age                         <span class="hljs-number">87990</span><br>signup_method                   <span class="hljs-number">0</span><br>signup_flow                     <span class="hljs-number">0</span><br>language                        <span class="hljs-number">0</span><br>affiliate_channel               <span class="hljs-number">0</span><br>affiliate_provider              <span class="hljs-number">0</span><br>first_affiliate_tracked      <span class="hljs-number">6065</span><br>signup_app                      <span class="hljs-number">0</span><br>first_device_type               <span class="hljs-number">0</span><br>first_browser                   <span class="hljs-number">0</span><br>country_destination             <span class="hljs-number">0</span><br>dtype: int64<br></code></pre></td></tr></table></figure>
+<p>date_first_booking，age，first_affiliate_tracked三列含有缺失值。</p>
+<h3 id="异常值查看"><a class="markdownIt-Anchor" href="#异常值查看"></a> 异常值查看</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">train_users_df.describe()<br></code></pre></td></tr></table></figure>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>timestamp_first_active</th>
+      <th>age</th>
+      <th>signup_flow</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>2.134510e+05</td>
+      <td>125461.000000</td>
+      <td>213451.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.013085e+13</td>
+      <td>49.668335</td>
+      <td>3.267387</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>9.253717e+09</td>
+      <td>155.666612</td>
+      <td>7.637707</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>2.009032e+13</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2.012123e+13</td>
+      <td>28.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2.013091e+13</td>
+      <td>34.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2.014031e+13</td>
+      <td>43.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2.014063e+13</td>
+      <td>2014.000000</td>
+      <td>25.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>age 的最大值是2014，不符合常识，猜测错把出生日期当成年龄填入，需要处理掉。将年龄数据小于0大于100的数据修改为 -1,转换数据为int型，方便后续分类统计。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">train_users_df.loc[(pd.isnull(train_users_df[<span class="hljs-string">&#x27;age&#x27;</span>]))|(train_users_df[<span class="hljs-string">&#x27;age&#x27;</span>]&gt;<span class="hljs-number">100</span>),<span class="hljs-string">&#x27;age&#x27;</span>]= -<span class="hljs-number">1</span><br>train_users_df[<span class="hljs-string">&#x27;age&#x27;</span>] = train_users_df[<span class="hljs-string">&#x27;age&#x27;</span>].astype(<span class="hljs-string">&#x27;int&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="重复值查看"><a class="markdownIt-Anchor" href="#重复值查看"></a> 重复值查看</h3>
+<p>根据数据要求，表中id应唯一，对key：id 进行去重。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">train_users_df = train_users_df.drop_duplicates(subset=[<span class="hljs-string">&#x27;id&#x27;</span>],keep=<span class="hljs-string">&#x27;first&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<h2 id="5数据分析"><a class="markdownIt-Anchor" href="#5数据分析"></a> 5.数据分析</h2>
+<h3 id="51用户画像分析"><a class="markdownIt-Anchor" href="#51用户画像分析"></a> 5.1用户画像分析</h3>
+<ol>
+<li>
+<p>性别分布</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">gender_df = train_users_df[(train_users_df[<span class="hljs-string">&#x27;gender&#x27;</span>]==<span class="hljs-string">&#x27;FEMALE&#x27;</span>)|(train_users_df[<span class="hljs-string">&#x27;gender&#x27;</span>]== <span class="hljs-string">&#x27;MALE&#x27;</span>)].groupby(by = <span class="hljs-string">&#x27;gender&#x27;</span>).size()<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>性别</th>
+<th>人数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FEMALE</td>
+<td>63041</td>
+</tr>
+<tr>
+<td>MALE</td>
+<td>54440</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%80%A7%E5%88%AB%E5%88%86%E5%B8%83.png" srcset="/img/loading.gif" alt="性别分布" /></p>
+<p>可以看出总样本数据中，女性人数占比略高于男性，产品受女性欢迎度较高。</p>
+</li>
+<li>
+<p>年龄分布</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">change_age</span>(<span class="hljs-params">age</span>):</span><br>    <span class="hljs-keyword">if</span> age &gt;<span class="hljs-number">0</span> <span class="hljs-keyword">and</span> age &lt;=<span class="hljs-number">20</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;20岁以下&quot;</span><br>    <span class="hljs-keyword">elif</span> age &gt;<span class="hljs-number">20</span> <span class="hljs-keyword">and</span> age &lt;=<span class="hljs-number">30</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;20到30岁&quot;</span><br>    <span class="hljs-keyword">elif</span> age &gt;<span class="hljs-number">30</span> <span class="hljs-keyword">and</span> age &lt;=<span class="hljs-number">40</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;30到40岁&quot;</span><br>    <span class="hljs-keyword">elif</span> age &gt;<span class="hljs-number">40</span> <span class="hljs-keyword">and</span> age &lt;=<span class="hljs-number">50</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;40到50岁&quot;</span><br>    <span class="hljs-keyword">elif</span> age &gt;<span class="hljs-number">50</span> <span class="hljs-keyword">and</span> age &lt;=<span class="hljs-number">100</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;50岁以上&quot;</span><br>        <br>age_df = train_users_df.copy()<br>age_df[<span class="hljs-string">&#x27;age&#x27;</span>] = age_df[<span class="hljs-string">&quot;age&quot;</span>].apply(<span class="hljs-keyword">lambda</span> x:change_age(x))<br>age_df = age_df.groupby(<span class="hljs-string">&quot;age&quot;</span>).size()<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>年龄</th>
+<th>人数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20岁以下</td>
+<td>2469</td>
+</tr>
+<tr>
+<td>20到30岁</td>
+<td>41633</td>
+</tr>
+<tr>
+<td>30到40岁</td>
+<td>44212</td>
+</tr>
+<tr>
+<td>40到50岁</td>
+<td>18831</td>
+</tr>
+<tr>
+<td>50岁以上</td>
+<td>15971</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E5%B9%B4%E9%BE%84%E5%88%86%E5%B8%83.png" srcset="/img/loading.gif" alt="性别分布" /></p>
+<p>由直方图可以看出，主要用户群体集中在20-40岁人群，20岁以下群体可能由于资金因素，消费人群最少</p>
+</li>
+<li>
+<p>使用语言分布</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">language_df = train_users_df.groupby(<span class="hljs-string">&#x27;language&#x27;</span>).size().sort_values(ascending=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>人数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>en</td>
+<td>206314</td>
+</tr>
+<tr>
+<td>zh</td>
+<td>1632</td>
+</tr>
+<tr>
+<td>fr</td>
+<td>1172</td>
+</tr>
+<tr>
+<td>es</td>
+<td>915</td>
+</tr>
+<tr>
+<td>ko</td>
+<td>747</td>
+</tr>
+<tr>
+<td>de</td>
+<td>732</td>
+</tr>
+<tr>
+<td>it</td>
+<td>514</td>
+</tr>
+<tr>
+<td>ru</td>
+<td>389</td>
+</tr>
+<tr>
+<td>pt</td>
+<td>240</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>225</td>
+</tr>
+<tr>
+<td>sv</td>
+<td>122</td>
+</tr>
+<tr>
+<td>nl</td>
+<td>97</td>
+</tr>
+<tr>
+<td>tr</td>
+<td>64</td>
+</tr>
+<tr>
+<td>da</td>
+<td>58</td>
+</tr>
+<tr>
+<td>pl</td>
+<td>54</td>
+</tr>
+<tr>
+<td>cs</td>
+<td>32</td>
+</tr>
+<tr>
+<td>no</td>
+<td>30</td>
+</tr>
+<tr>
+<td>th</td>
+<td>24</td>
+</tr>
+<tr>
+<td>el</td>
+<td>24</td>
+</tr>
+<tr>
+<td>id</td>
+<td>22</td>
+</tr>
+<tr>
+<td>hu</td>
+<td>18</td>
+</tr>
+<tr>
+<td>fi</td>
+<td>14</td>
+</tr>
+<tr>
+<td>is</td>
+<td>5</td>
+</tr>
+<tr>
+<td>ca</td>
+<td>5</td>
+</tr>
+<tr>
+<td>hr</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E8%AF%AD%E8%A8%80%E5%88%86%E5%B8%83.png" srcset="/img/loading.gif" alt="性别分布" /></p>
+<ul>
+<li>
+<p>airbnb产品很国际化，用户遍布多个地区。</p>
+</li>
+<li>
+<p>有超过90%的用户是英语国家（欧美）；airbnb是2013年开始进入中国市场的（此数据集止于2014年），所以此时中文用户数量虽然排名第二，但是占比却非常小。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>国家目的地分布</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">country_df = train_users_df[train_users_df[<span class="hljs-string">&#x27;country_destination&#x27;</span>] != <span class="hljs-string">&#x27;NDF&#x27;</span>].groupby(<span class="hljs-string">&#x27;country_destination&#x27;</span>).size().sort_values(ascending=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>国家</th>
+<th>人数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US</td>
+<td>62376</td>
+</tr>
+<tr>
+<td>other</td>
+<td>10094</td>
+</tr>
+<tr>
+<td>FR</td>
+<td>5023</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>2835</td>
+</tr>
+<tr>
+<td>GB</td>
+<td>2324</td>
+</tr>
+<tr>
+<td>ES</td>
+<td>2249</td>
+</tr>
+<tr>
+<td>CA</td>
+<td>1428</td>
+</tr>
+<tr>
+<td>DE</td>
+<td>1061</td>
+</tr>
+<tr>
+<td>NL</td>
+<td>762</td>
+</tr>
+<tr>
+<td>AU</td>
+<td>539</td>
+</tr>
+<tr>
+<td>PT</td>
+<td>217</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E7%9B%AE%E7%9A%84%E5%9C%B0%E5%9B%BD%E5%AE%B6.png" srcset="/img/loading.gif" alt="目的地国家" /></p>
+<p>客户预定民宿地主要集中在美国，其次是法国意大利德国等。</p>
+</li>
+<li>
+<p>注册app来源分布</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">sign_app_df = train_users_df[train_users_df[<span class="hljs-string">&#x27;signup_app&#x27;</span>] != <span class="hljs-string">&#x27;NDF&#x27;</span>].groupby(<span class="hljs-string">&#x27;signup_app&#x27;</span>).size().sort_values(ascending=<span class="hljs-literal">False</span>)<br><br>web_device_type_df = train_users_df[train_users_df[<span class="hljs-string">&#x27;signup_app&#x27;</span>] == <span class="hljs-string">&#x27;Web&#x27;</span>].groupby(<span class="hljs-string">&#x27;first_device_type&#x27;</span>).size().sort_values(ascending=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>人数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web</td>
+<td>182717</td>
+</tr>
+<tr>
+<td>iOS</td>
+<td>19019</td>
+</tr>
+<tr>
+<td>Moweb</td>
+<td>6261</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>5454</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>web细分</th>
+<th>人数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mac_Desktop</td>
+<td>86839</td>
+</tr>
+<tr>
+<td>Windows_Desktop</td>
+<td>70887</td>
+</tr>
+<tr>
+<td>iPad</td>
+<td>13033</td>
+</tr>
+<tr>
+<td>Other/Unknown</td>
+<td>4773</td>
+</tr>
+<tr>
+<td>iPhone</td>
+<td>4050</td>
+</tr>
+<tr>
+<td>Desktop_(Other)</td>
+<td>1145</td>
+</tr>
+<tr>
+<td>Android_Tablet</td>
+<td>1096</td>
+</tr>
+<tr>
+<td>Android_Phone</td>
+<td>842</td>
+</tr>
+<tr>
+<td>SmartPhone_(Other)</td>
+<td>52</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%B3%A8%E5%86%8Capp.png" srcset="/img/loading.gif" alt="" /></p>
+<ul>
+<li>web端浏览量占比86%，其中web端桌面应用占比接近90%，表明大多数用户喜欢用桌面网页端浏览，可能是因为桌面web端访问方便，数据丰富，选择民宿风格，查看地理位置方便。另一个可能的原因是2014年智能手机还没有像现在一样十分普遍。</li>
+<li>使用苹果设备的用户数量大于使用其他设备的用户数量。</li>
+</ul>
+</li>
+</ol>
+<h3 id="52流量分析"><a class="markdownIt-Anchor" href="#52流量分析"></a> 5.2流量分析</h3>
+<ol>
+<li>
+<p>用户量变化</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">train_users_df<span class="hljs-selector-attr">[<span class="hljs-string">&#x27;year_month&#x27;</span>]</span> = train_users_df<span class="hljs-selector-attr">[<span class="hljs-string">&#x27;date_account_created&#x27;</span>]</span><span class="hljs-selector-class">.apply</span>(lambda x : x<span class="hljs-selector-class">.strftime</span>(<span class="hljs-string">&#x27;%Y-%m&#x27;</span>))<br>account_crea_df = train_users_df<span class="hljs-selector-class">.groupby</span>(<span class="hljs-string">&quot;year_month&quot;</span>)<span class="hljs-selector-class">.size</span>()<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>篇幅所限，节选10行数据</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>人数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2010-01</td>
+<td>61</td>
+</tr>
+<tr>
+<td>2010-02</td>
+<td>102</td>
+</tr>
+<tr>
+<td>2010-03</td>
+<td>163</td>
+</tr>
+<tr>
+<td>2010-04</td>
+<td>157</td>
+</tr>
+<tr>
+<td>2010-05</td>
+<td>227</td>
+</tr>
+<tr>
+<td>2010-06</td>
+<td>222</td>
+</tr>
+<tr>
+<td>2010-07</td>
+<td>307</td>
+</tr>
+<tr>
+<td>2010-08</td>
+<td>312</td>
+</tr>
+<tr>
+<td>2010-09</td>
+<td>371</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E7%94%A8%E6%88%B7%E9%87%8F.png" srcset="/img/loading.gif" alt="" /></p>
+</li>
+</ol>
+<ul>
+<li>
+<p>airbnb的用户增长曲线健康，前期（2011年之前）平缓，2012年2月之后开始快速增长。</p>
+</li>
+<li>
+<p>2012年之后的增长速度很快。</p>
+</li>
+<li>
+<p>此产品新用户的增加<strong>存在季节性规律</strong>：每年的7～10月，产品都会迎来用户增长的高峰，推测为夏季是旅行的旺季，而短租产品本身就是旅行消费的一种。</p>
+</li>
+</ul>
+<p>2.渠道转化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">af_prv_df = train_users_df[(train_users_df[<span class="hljs-string">&#x27;date_first_booking&#x27;</span>].notnull())].groupby([<span class="hljs-string">&#x27;affiliate_channel&#x27;</span>,<span class="hljs-string">&#x27;affiliate_provider&#x27;</span>]).size().to_frame()<br>af_prv_df_1 = train_users_df.groupby([<span class="hljs-string">&#x27;affiliate_channel&#x27;</span>,<span class="hljs-string">&#x27;affiliate_provider&#x27;</span>]).size().to_frame()<br>af_prv_df = af_prv_df.merge(af_prv_df_1, how=<span class="hljs-string">&#x27;inner&#x27;</span>, left_index=<span class="hljs-literal">True</span> , right_index=<span class="hljs-literal">True</span>).reset_index()<br>af_prv_df.columns = [<span class="hljs-string">&#x27;channel&#x27;</span>,<span class="hljs-string">&#x27;provider&#x27;</span>,<span class="hljs-string">&#x27;渠道预定数量&#x27;</span>,<span class="hljs-string">&#x27;渠道全部数量&#x27;</span>]<br>af_prv_df = af_prv_df[af_prv_df[<span class="hljs-string">&#x27;渠道预定数量&#x27;</span>] &gt; <span class="hljs-number">200</span>]<br>af_prv_df[<span class="hljs-string">&#x27;类型&#x27;</span>] = af_prv_df[<span class="hljs-string">&#x27;channel&#x27;</span>] + <span class="hljs-string">&#x27;-&#x27;</span> + af_prv_df[<span class="hljs-string">&#x27;provider&#x27;</span>]<br>af_prv_df[<span class="hljs-string">&#x27;占比&#x27;</span>] = af_prv_df[<span class="hljs-string">&#x27;渠道预定数量&#x27;</span>] /af_prv_df[<span class="hljs-string">&#x27;渠道全部数量&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>渠道预定数量</th>
+<th>渠道全部数量</th>
+<th>占比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>seo-google</td>
+<td>2739</td>
+<td>5691</td>
+<td>48.1%</td>
+</tr>
+<tr>
+<td>other-craigslist</td>
+<td>1616</td>
+<td>3471</td>
+<td>46.6%</td>
+</tr>
+<tr>
+<td>seo-facebook</td>
+<td>724</td>
+<td>1677</td>
+<td>43.2%</td>
+</tr>
+<tr>
+<td>direct-direct</td>
+<td>59234</td>
+<td>137426</td>
+<td>43.1%</td>
+</tr>
+<tr>
+<td>sem-brand-google</td>
+<td>10705</td>
+<td>25069</td>
+<td>42.7%</td>
+</tr>
+<tr>
+<td>other-other</td>
+<td>1508</td>
+<td>3656</td>
+<td>41.2%</td>
+</tr>
+<tr>
+<td>sem-brand-bing</td>
+<td>375</td>
+<td>950</td>
+<td>39.5%</td>
+</tr>
+<tr>
+<td>sem-non-brand-google</td>
+<td>6516</td>
+<td>16947</td>
+<td>38.4%</td>
+</tr>
+<tr>
+<td>api-other</td>
+<td>2785</td>
+<td>8167</td>
+<td>34.1%</td>
+</tr>
+<tr>
+<td>remarketing-google</td>
+<td>368</td>
+<td>1094</td>
+<td>33.6%</td>
+</tr>
+<tr>
+<td>sem-non-brand-bing</td>
+<td>296</td>
+<td>889</td>
+<td>33.3%</td>
+</tr>
+<tr>
+<td>other-padmapper</td>
+<td>252</td>
+<td>768</td>
+<td>32.8%</td>
+</tr>
+<tr>
+<td>sem-non-brand-vast</td>
+<td>271</td>
+<td>829</td>
+<td>32.7%</td>
+</tr>
+<tr>
+<td>content-google</td>
+<td>451</td>
+<td>2892</td>
+<td>15.6%</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%B8%A0%E9%81%93%E6%95%B0%E9%87%8F.png" srcset="/img/loading.gif" alt="" /></p>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E6%B8%A0%E9%81%93%E8%BD%AC%E5%8C%96.png" srcset="/img/loading.gif" alt="" /></p>
+<ul>
+<li>
+<p>在所有渠道转化中，绝大多数渠道的转化率都超过了30%，整体转化情况良好。</p>
+</li>
+<li>
+<p>content_google的转化率异常，明显低于转化率的均值。需要查看哪里出现问题。</p>
+</li>
+<li>
+<p>drict（直接应用市场下载注册）的注册量最多，占总注册量的64.38%。我们的分析目的是查看推广渠道的好坏，具体分析中排除了drict。</p>
+</li>
+<li>
+<p>sem（谷歌竞价）整体的表现要远好于其他营销方式，前两种sem的营销方式，无论是带来的用户量,注册量及转化率都好于其他营销方式。</p>
+</li>
+<li>
+<p>渠道注册量符合二八定律，前7个渠道的注册量已经占据了产品总的渠道来源的90%以上。</p>
+<p><strong>优质渠道</strong></p>
+<ul>
+<li>seo_google的注册量和转化率表现都很好。</li>
+<li>sem_brand_google的注册量和转化率表现很好。</li>
+</ul>
+</li>
+</ul>
+<p>3.营销广告转化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">first_aff_trac_df = train_users_df[(train_users_df[<span class="hljs-string">&#x27;date_first_booking&#x27;</span>].notnull())].groupby([<span class="hljs-string">&#x27;first_affiliate_tracked&#x27;</span>]).size().to_frame()<br>first_aff_trac_df_1 = train_users_df.groupby([<span class="hljs-string">&#x27;first_affiliate_tracked&#x27;</span>]).size().to_frame()<br>first_aff_trac_df = first_aff_trac_df.merge(first_aff_trac_df_1, how=<span class="hljs-string">&#x27;inner&#x27;</span>, left_index=<span class="hljs-literal">True</span> , right_index=<span class="hljs-literal">True</span>).reset_index()<br>first_aff_trac_df.columns = [<span class="hljs-string">&#x27;营销广告来源&#x27;</span>,<span class="hljs-string">&#x27;该来源预定人数&#x27;</span>,<span class="hljs-string">&#x27;该来源全部人数&#x27;</span>]<br><span class="hljs-comment">#first_aff_trac_df = first_aff_trac_df[first_aff_trac_df[&#x27;渠道预定数量&#x27;] &gt; 200]</span><br><span class="hljs-comment">#first_aff_trac_df[&#x27;类型&#x27;] = first_aff_trac_df[&#x27;channel&#x27;] + &#x27;-&#x27; + first_aff_trac_df[&#x27;provider&#x27;]</span><br>first_aff_trac_df[<span class="hljs-string">&#x27;占比&#x27;</span>] = first_aff_trac_df[<span class="hljs-string">&#x27;该来源预定人数&#x27;</span>] /first_aff_trac_df[<span class="hljs-string">&#x27;该来源全部人数&#x27;</span>]<br>first_aff_trac_df = first_aff_trac_df[first_aff_trac_df[<span class="hljs-string">&#x27;营销广告来源&#x27;</span>] != <span class="hljs-string">&#x27;untracked&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>营销广告来源</th>
+<th>该来源预定人数</th>
+<th>该来源全部人数</th>
+<th>占比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>marketing</td>
+<td>63</td>
+<td>139</td>
+<td>45.3%</td>
+</tr>
+<tr>
+<td>linked</td>
+<td>20102</td>
+<td>46287</td>
+<td>43.4%</td>
+</tr>
+<tr>
+<td>omg</td>
+<td>16425</td>
+<td>43982</td>
+<td>37.3%</td>
+</tr>
+<tr>
+<td>tracked-other</td>
+<td>2290</td>
+<td>6156</td>
+<td>37.2%</td>
+</tr>
+<tr>
+<td>product</td>
+<td>542</td>
+<td>1556</td>
+<td>34.8%</td>
+</tr>
+<tr>
+<td>localops</td>
+<td>9</td>
+<td>34</td>
+<td>26.5%</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E5%B9%BF%E5%91%8A%E5%8D%A0%E6%AF%94.png" srcset="/img/loading.gif" alt="" /></p>
+<ul>
+<li>linked推广内容带来的用户转化率和流量都很高，可以后期进行重点推广。</li>
+<li>marking带来的流量较少，但是转化率最高，可以进行重点推广。</li>
+<li>'product’及’localops’排在所有营销内容的最后两名，带来的流量及转化量都不是很理想，后续可以较少相关资源的配比。</li>
+</ul>
+<p>4.转化量漏斗分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#总用户量</span><br>total_user_df = sessions_df.drop_duplicates(<span class="hljs-string">&#x27;user_id&#x27;</span>)<br><span class="hljs-comment">#定义用户在平台操作次数超过10次即为活跃用户。</span><br><span class="hljs-comment">#活跃用户数</span><br>n_df = sessions_df[[<span class="hljs-string">&#x27;user_id&#x27;</span>,<span class="hljs-string">&#x27;action_detail&#x27;</span>]].merge(train_users_df[[<span class="hljs-string">&#x27;id&#x27;</span>,<span class="hljs-string">&#x27;date_account_created&#x27;</span>]],how = <span class="hljs-string">&#x27;left&#x27;</span>,left_on = <span class="hljs-string">&#x27;user_id&#x27;</span>,right_on = <span class="hljs-string">&#x27;id&#x27;</span>)<br>n_df = n_df.groupby(<span class="hljs-string">&#x27;user_id&#x27;</span>).size().to_frame().reset_index()<br>n_df.columns = [<span class="hljs-string">&#x27;user_id&#x27;</span>,<span class="hljs-string">&#x27;num&#x27;</span>]<br>n_df = n_df[n_df[<span class="hljs-string">&#x27;num&#x27;</span>]&gt;<span class="hljs-number">10</span>]<br><span class="hljs-comment">#注册用户数</span><br>user_creat_df = total_user_df[[<span class="hljs-string">&#x27;user_id&#x27;</span>,<span class="hljs-string">&#x27;action_detail&#x27;</span>]].merge(train_users_df[[<span class="hljs-string">&#x27;id&#x27;</span>,<span class="hljs-string">&#x27;date_account_created&#x27;</span>]],how = <span class="hljs-string">&#x27;left&#x27;</span>,left_on = <span class="hljs-string">&#x27;user_id&#x27;</span>,right_on = <span class="hljs-string">&#x27;id&#x27;</span>)<br><span class="hljs-comment">#注册用户中提交过订单信息的用户数</span><br>place_order_df = user_creat_df[user_creat_df[<span class="hljs-string">&#x27;date_account_created&#x27;</span>].notnull()]<br>place_order_df = sessions_df[sessions_df[<span class="hljs-string">&#x27;action_detail&#x27;</span>] == <span class="hljs-string">&#x27;reservations&#x27;</span>].groupby(<span class="hljs-string">&#x27;user_id&#x27;</span>).size()<br><span class="hljs-comment">#注册用户中成功支付的用户数</span><br>place_order_df = user_creat_df[user_creat_df[<span class="hljs-string">&#x27;date_account_created&#x27;</span>].notnull()]<br>place_order_df = sessions_df[sessions_df[<span class="hljs-string">&#x27;action_detail&#x27;</span>] == <span class="hljs-string">&#x27;payment_instruments&#x27;</span>].groupby(<span class="hljs-string">&#x27;user_id&#x27;</span>).size()<br><span class="hljs-comment">#重复购买用户数</span><br>re_pay_user_df = place_order_df.to_frame().reset_index()<br>re_pay_user_df.columns = [<span class="hljs-string">&quot;user_id&quot;</span>,<span class="hljs-string">&quot;num&quot;</span>]<br>re_pay_user_df = re_pay_user_df[re_pay_user_df[<span class="hljs-string">&#x27;num&#x27;</span>] &gt; <span class="hljs-number">1</span>]<br>	<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>人数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总用户量</td>
+<td>135484</td>
+</tr>
+<tr>
+<td>活跃用户数</td>
+<td>111977</td>
+</tr>
+<tr>
+<td>注册用户数</td>
+<td>73815</td>
+</tr>
+<tr>
+<td>提交订单用户数</td>
+<td>10366</td>
+</tr>
+<tr>
+<td>成功支付的用户数</td>
+<td>9018</td>
+</tr>
+<tr>
+<td>重复购买用户数</td>
+<td>4153</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/img/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/%E8%BD%AC%E5%8C%96%E7%8E%87.png" srcset="/img/loading.gif" alt="" /></p>
+<ul>
+<li>
+<p>注册用户到下单用户是airbnb转化漏斗中流失率最高的一个环节。仅有14.04%的注册用户下单。</p>
+</li>
+<li>
+<p>活跃和复购环节表现的好，其中有46.05%的下单用户复购，说明在商品质量和后续服务比较吸引用户。</p>
+</li>
+<li>
+<p>提交订单的用户中有大约13%的用户没有最终支付，需要查找原因。</p>
+</li>
+</ul>
+<h2 id="6总结"><a class="markdownIt-Anchor" href="#6总结"></a> 6.总结</h2>
+<ul>
+<li>用户性别中，女性用户多于男性用户，但是差别不大。用户年龄以中青年为主。用户分布地区最多的为欧美地区，其次是中国，但欧美占比达到了90%以上。</li>
+<li>此产品新用户的增加存在季节性规律：每年的7～10月，产品都会迎来用户增长的高峰。</li>
+<li>直连用户的注册量最多，占总注册量的64.38%。注册量排名前6的渠道，占据了产品全部渠道注册来源数量的90%以上。</li>
+<li>主要渠道中，content_google的转化率异常，明显低于转化率的均值。</li>
+<li>airbnb转化漏斗中流失率最高的一个环节是“用户下单”，仅有14%的注册用户下单。下单用户中有大约13%的用户最终没有支付成功。活跃和复购环节表现良好，产品质量和后续服务做的比较好。</li>
+</ul>
+<h2 id="7建议"><a class="markdownIt-Anchor" href="#7建议"></a> 7.建议</h2>
+<ol>
+<li>根据年龄分布特征，建议SEO或者付费广告投放时，投放对象细化至年龄在29～39岁的男性。</li>
+<li>7～10月是业务的旺季，建议运营部门在每年的7～10月加大活动营销的力度，同时加大渠道广告的投放力度。</li>
+<li>在主要渠道中content_google只有15%，建议运营部门计算此渠道的ROI和ARPU，如果ROI &gt; ARPU，建议停止此渠道的投放。</li>
+<li>SEO推广下各渠道的拉新和转化都好，SEO作为一种较低成本的获客方式，建议企业管理层日常要更加支持SEO相关的资源投入，甚至考虑扩大SEO的团队。</li>
+<li>不通营销内容的拉新和转化效果也不同，优秀营销内容（linked）和表现较差的营销内容（localops），如果在活动过程建议对localops及时优化内容甚至更换。如果是活动之后、建议运营部门针对不同质量的营销内容做对比分析。</li>
+<li>注册用户到下单用户是airbnb转化漏斗中流失率最高的一个环节，仅有14%的注册用户真正下单，此环节作为企业营收的主要来源之一，建议围绕提高下单率做更多的工作。例如针对活跃用户的用户轨迹定期推送（产品push，短信邮件）优质房源。</li>
+<li>下单用户中有大约13%的用户最终没有支付，需要排查具体原因，建议进行用户调研、或者在产品上统计用户未支付原因（是用户自身决策导致、还是产品流程的原因、还是支付类型不满足个别地区等）。</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/01/pandas%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%87%BD%E6%95%B0/">
+                        <span class="hidden-mobile">pandas常用数据分析函数</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+</body>
+</html>
