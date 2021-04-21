@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>深度学习记事本</title>
+    <link href="/2021/04/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AE%B0%E4%BA%8B%E6%9C%AC/"/>
+    <url>/2021/04/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%AE%B0%E4%BA%8B%E6%9C%AC/</url>
+    
+    <content type="html"><![CDATA[<h1 id="深度学习记事本"><a class="markdownIt-Anchor" href="#深度学习记事本"></a> 深度学习记事本</h1><a id="more"></a><h2 id="学习视频"><a class="markdownIt-Anchor" href="#学习视频"></a> 学习视频</h2><p><a href="https://www.bilibili.com/video/BV1Y7411d7Ys?p=1">《PyTorch深度学习实践》完结合集</a></p><h2 id="文本资料"><a class="markdownIt-Anchor" href="#文本资料"></a> 文本资料</h2><p><a href="https://zh.d2l.ai/d2l-zh.pdf">动手学习深度学习</a></p><p><a href="https://geek-docs.com/pytorch/pytorch-tutorial/pytorch-tutorial.html">pytorch教程</a></p><p><a href="https://www.ics.uci.edu/~welling/teaching/KernelsICS273B/MatrixCookBook.pdf">矩阵计算</a></p><p><a href="https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html">60分钟PyTorch教程</a></p><p><a href="https://pytorch.org/tutorials/beginner/pytorch_with_examples.html">通过例子学PyTorch</a></p><p><a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html">迁移学习教程</a>。</p><h2 id="qa"><a class="markdownIt-Anchor" href="#qa"></a> Q&amp;A</h2><p>[图像数据集的均值和方差(mean, std)用于transforms.Normalize()标准化</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>machine learning</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ml，Deep Learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Airbnb产品数据分析</title>
     <link href="/2021/04/02/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
     <url>/2021/04/02/Airbnb%E4%BA%A7%E5%93%81%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/</url>
